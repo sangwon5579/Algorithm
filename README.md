@@ -39,4 +39,57 @@
 - 삽입 (중간) :	특정 노드 뒤에 삽입	- O(1) (노드 위치 알고 있는 경우)
 - 삭제 (특정 노드)	: 노드 포인터만 수정하면 된다 -	O(1)
 - 탐색 : 특정 데이터 탐색	 - O(n)
----  
+---   
+## 3. Divide and Conquer  
+#### Design  
+- step1 : Divide into 2개 이상의 smaller problems(instances)  
+- step2 : Solve each instance - Conquer  
+- step3 : Combine the subsolutions(Optional)  
+  SubSolution의 상세 디자인은 어디에 있는가? => 없음 => 즉 위의 3개의 step이 상세한 디자인을 포함한 전체 Solution임  
+#### Analysis
+- Step2 해결  
+ 1. Recursion : concise, natural, clear한 기계적 해법  
+ 2. Iteration : faster, save memory space(system stack)  
+    -> recursion depth, stack depth : log(n) + 1  
+- 시간복잡도  
+1. Bast-case : O(1)  
+2. Worst-case : 1/2 size가 매번 감소 -> O(log n)  
+   -> Mathmatical analysis is required  
+- Time Complexity = # of basic operations  
+D&C의 Basic Opeation은? => 위의 step1~3의 합  
+T(n) =Divide + Conquer + Combine 하는 시간들의 합  
+= ? + ? + ?  
+- Divide TIme = 1   => WHY? Step1에서 divide 1회 이후 step2에서는 다시 recursive를 할 수도 있고, Iteratively하게 Solve할 수도 있음. 즉 Divide는 Step1에서 1회  
+- Conquer Time = T(n/2) => WHY? 나누어진 문제의 왼쪽 or 오른쪽 중 하나만 해결하면 됨. 각각 T(n/2)이므로 T(n/2)  
+- Combine Time = 0 => WHY? 계산 후 L과 R의 값을 합칠 필요가 없음. Step3는 Optional임<br>
+==> T(n) = 1 + T(n/2) + 0 = 1 + log n <= O(log n)  
+### 3.1 Merge Sort
+- 정렬되지 않은 영역을 쪼개서 각각의 영역을 정렬하고 이를 합치며 정렬
+- 리스트를 두 개의 균등한 크기로 분할하고 분할된 부분리스트를 정렬
+- 정렬된 두 개의 부분 리스트를 합하여 전체 리스트를 정렬
+- 단점 : 분할한 자료를 저장할 별도의 저장 공간 필요
+#### Design 
+- step1 : Divide into 2개 이상의 subarrays
+- step2 : Solve(Conquer) each subarray - Sort Left, Right
+- step3 : Combine the SubSolutions - merge Left, Right
+#### Analysis  
+n개의 element  
+log(n)의 defth -> Complexity = nlog(n)  
+- T(n) = divide complexity + conquer complexity + combine complexity<br>
+= ? + ? + ?<br>
+- Divide Time : 0 => WHY? 코드를 잘 짜면 Divide 시간을 0으로 만들 수 있음. 즉 Copy를 안해도됨. 반드시 필요한 Operation은 아님
+- Conquer Time : 2*T(n/2) => WHY? Solve Left + Solve Right = T(n/2) + T(n/2)
+- Combine Time : n-1 => WHY? n/2 + n/2 + 1<br>
+= 2*T(n/2) + n - 1 <br>
+<= 2*T(n/2) + n<br>
+...<br>
+= n*T(1) + nlog(n)<br>
+= nlog(n)<br>
+=> O(nlog(n))
+#### 성능 향상
+- 재귀 호출 감소
+  - 크기 1까지 재귀호출하지 말고 소수의 크기(10 이내)일 때는 삽입 정렬
+  - sorted를 list로 복사하는 대신 두 개의 배열을 번갈아 사용
+  - O(n log n)
+- 반복 Merge Sort
+  - D&C가 아니라 2개-4개-8개를 바로 합병하는 방식
