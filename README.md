@@ -62,12 +62,18 @@ T(n) =Divide + Conquer + Combine 하는 시간들의 합
 - Divide TIme = 1   => WHY? Step1에서 divide 1회 이후 step2에서는 다시 recursive를 할 수도 있고, Iteratively하게 Solve할 수도 있음. 즉 Divide는 Step1에서 1회  
 - Conquer Time = T(n/2) => WHY? 나누어진 문제의 왼쪽 or 오른쪽 중 하나만 해결하면 됨. 각각 T(n/2)이므로 T(n/2)  
 - Combine Time = 0 => WHY? 계산 후 L과 R의 값을 합칠 필요가 없음. Step3는 Optional임<br>
-==> T(n) = 1 + T(n/2) + 0 = 1 + log n <= O(log n)  
+==> T(n) = 1 + T(n/2) + 0 = 1 + log n <= O(log n)
+---
 ### 3.1 Merge Sort
 - 정렬되지 않은 영역을 쪼개서 각각의 영역을 정렬하고 이를 합치며 정렬
 - 리스트를 두 개의 균등한 크기로 분할하고 분할된 부분리스트를 정렬
 - 정렬된 두 개의 부분 리스트를 합하여 전체 리스트를 정렬
 - 단점 : 분할한 자료를 저장할 별도의 저장 공간 필요
+  
+<p align="center">
+  <img src="images/merge_sort.png" width="400"/>
+</p>
+
 #### Design 
 - step1 : Divide into 2개 이상의 subarrays
 - step2 : Solve(Conquer) each subarray - Sort Left, Right
@@ -92,4 +98,12 @@ log(n)의 defth -> Complexity = nlog(n)
   - sorted를 list로 복사하는 대신 두 개의 배열을 번갈아 사용
   - O(n log n)
 - 반복 Merge Sort
-  - D&C가 아니라 2개-4개-8개를 바로 합병하는 방식
+  - D&C가 아니라 2개-4개-8개를 바로 합병하는 방식 <br>
+  ---
+### 3.2 Quick Sort
+- 하나의 기준점인 Pivot을 잡고, 그보다 작은 원소들은 왼쪽, 큰 원소들은 오른쪽으로 나눈 뒤 각각을 재귀적으로 정렬한다.
+  
+<p align="center">
+  <img src="images/quick_sort.png" width="700"/>
+</p>
+- 
