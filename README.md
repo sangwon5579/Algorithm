@@ -41,12 +41,12 @@
 - 탐색 : 특정 데이터 탐색	 - O(n)
 ---   
 ## 3. Divide and Conquer  
-#### Design  
+#### DESIGN  
 - step1 : Divide into 2개 이상의 smaller problems(instances)  
 - step2 : Solve each instance - Conquer  
 - step3 : Combine the subsolutions(Optional)  
   SubSolution의 상세 디자인은 어디에 있는가? => 없음 => 즉 위의 3개의 step이 상세한 디자인을 포함한 전체 Solution임  
-#### Analysis
+#### ANALYSIS
 - Step2 해결  
  1. Recursion : concise, natural, clear한 기계적 해법  
  2. Iteration : faster, save memory space(system stack)  
@@ -74,11 +74,11 @@ T(n) =Divide + Conquer + Combine 하는 시간들의 합
   <img src="images/merge_sort.png" width="400"/>
 </p>
 
-#### Design 
+#### DESIGN 
 - step1 : Divide into 2개 이상의 subarrays
 - step2 : Solve(Conquer) each subarray - Sort Left, Right
 - step3 : Combine the SubSolutions - merge Left, Right
-#### Analysis  
+#### ANALYSIS  
 n개의 element  
 log(n)의 defth -> Complexity = nlog(n)  
 - T(n) = divide complexity + conquer complexity + combine complexity<br>
@@ -106,4 +106,34 @@ log(n)의 defth -> Complexity = nlog(n)
 <p align="center">
   <img src="images/quick_sort.png" width="700"/>
 </p>
-- 
+
+#### DESIGN
+- D&C에서 Step3인 Combine을 생략<br>
+EX) 13 22 42 33 10 20 30<br>
+-> (LEFT) < (RIGHT) :Divide(Step1) <- Divide의 중요성이 부각됨. Divide를 잘해야됨<br>
+   (LEFT) < (RIGHT) : (LEFT) < Pivot : 기준 = median(불가능, 중간값 찾기 어려움. 이미 정렬된 상태가 아님)<br>
+                                            = random(가능) < (RIGHT)<br>
+-> (left part : sort) (right part : sort) : conquer (step2)<br>
+-> END <br>
+#### ANALYSIS
+- T(n) = divide + Conquer + Combine<br>
+= ? + ? + ?
+- Divide Time : n-1 => WHY? pivot을 기준으로 n개의 원소가 있는 array를 divide한다<br>
+- Conquer Time : 2*T(n/2) => WHY? 왼쪽 오른쪽 각각 정렬이지만, 양쪽이 개수가 같도록 나눠지지않음. 피벗이 중간값과 비슷하게 계산된 경우에만 위와 같음. 즉, Best case TC<br>
+- Combine Time : 0<br>
+= n-1 + 2T(n/2)<br>
+=2T(n/2)  + n (상수 1 생략)<br>
+= 2^k * T(n/2^k) + kn	(2^k = n)<br>
+=nT(n/n) + logn*n = n*0 + nlogn = n(logn)<br>
+=O(nlogn)<br>      
+- Worst Case(역순 정렬된 경우. 피벗은 첫번째 값)  
+T(n)  
+	=Divide + Conq + Combine    
+	=(n-1) + T(left) + T(right) + 0 --> Worst-case TC?    
+	=(n-1) + T(n-1) +T(1) + 0    
+	=(n-1) + T(n-1)   
+	=T(n-1) + n-1  
+	=T(n-2) + (n-2) + (n-1)  
+	=T(n-3) + (n-3) + (n-2) + (n-1)   
+	=n(n-1)/2 = 1부터 (n-1)까지의 합임     
+	<= O(n^2)         
